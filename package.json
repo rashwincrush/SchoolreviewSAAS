@@ -8,6 +8,7 @@
   ],
   "scripts": {
     "build": "pnpm -C apps/embed build && pnpm -C apps/admin build",
+    "build:vercel": "rm -rf dist && VITE_BASE=/embed/ pnpm -C apps/embed build && VITE_BASE=/admin/ pnpm -C apps/admin build && mkdir -p dist/embed dist/admin && cp -R apps/embed/dist/* dist/embed/ && cp -R apps/admin/dist/* dist/admin/",
     "dev:embed": "pnpm -C apps/embed dev",
     "dev:admin": "pnpm -C apps/admin dev",
     "fmt": "prettier -w ."

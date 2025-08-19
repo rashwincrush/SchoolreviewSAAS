@@ -10,5 +10,8 @@ export default defineConfig({
       '@school-reviews/ui': fileURLToPath(new URL('../../packages/ui/src', import.meta.url))
     },
     dedupe: ['react', 'react-dom']
-  }
+  },
+  // Allow deployment under a subpath on a shared domain (e.g. /embed)
+  // In Vercel, set VITE_BASE to '/embed/' for this project
+  base: process.env.VITE_BASE || '/'
 })

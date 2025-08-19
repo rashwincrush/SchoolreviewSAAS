@@ -11,6 +11,9 @@ export default defineConfig({
     },
     dedupe: ['react', 'react-dom']
   },
+  // Allow deployment under a subpath on a shared domain (e.g. /admin)
+  // In Vercel, set VITE_BASE to '/admin/' for this project
+  base: process.env.VITE_BASE || '/',
   server: {
     port: 5174,
     strictPort: false,
