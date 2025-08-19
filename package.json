@@ -1,0 +1,18 @@
+{
+  "name": "school-reviews-saas",
+  "private": true,
+  "packageManager": "pnpm@9",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "pnpm -C apps/embed build && pnpm -C apps/admin build",
+    "dev:embed": "pnpm -C apps/embed dev",
+    "dev:admin": "pnpm -C apps/admin dev",
+    "fmt": "prettier -w ."
+  },
+  "devDependencies": {
+    "prettier": "^3.2.5"
+  }
+}
