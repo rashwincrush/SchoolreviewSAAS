@@ -2,6 +2,9 @@ import React from 'react'
 import { Button, toast } from '@school-reviews/ui'
 import { createSupabaseClient } from '@school-reviews/lib'
 import Home from './pages/Home'
+import Campaigns from './pages/Campaigns'
+
+type AdminTab = 'reviews' | 'campaigns'
 
 export default function App() {
   const supabase = React.useMemo(() => createSupabaseClient(), [])
@@ -13,6 +16,7 @@ export default function App() {
   const [pending, setPending] = React.useState<any[]>([])
   const [loading, setLoading] = React.useState(false)
   const [myTenants, setMyTenants] = React.useState<Array<{ tenant_id: string, tenants: { name: string, slug: string } }>>([])
+  const [activeTab, setActiveTab] = React.useState<AdminTab>('reviews')
 
   React.useEffect(() => {
     const slug = new URLSearchParams(location.search).get('tenant')
@@ -162,6 +166,31 @@ export default function App() {
           </div>
         </header>
 
+        {/* Tab navigation */}
+        <nav style={{ display: 'flex', gap: 0, borderBottom: '1px solid #e2e8f0', marginBottom: 20 }}>
+          {([['reviews', 'Reviews'], ['campaigns', 'Campaigns']] as const).map(([key, label]) => (
+            <button
+              key={key}
+              onClick={() => setActiveTab(key)}
+              style={{
+                padding: '10px 20px',
+                border: 'none',
+                borderBottom: activeTab === key ? '2px solid #111' : '2px solid transparent',
+                background: 'none',
+                cursor: 'pointer',
+                fontWeight: activeTab === key ? 600 : 400,
+                color: activeTab === key ? '#0f172a' : '#64748b',
+                fontSize: 15,
+              }}
+            >
+              {label}
+            </button>
+          ))}
+        </nav>
+
+        {activeTab === 'campaigns' ? (
+          <Campaigns />
+        ) : (
         <section>
           {loading ? (
             <p>Loading…</p>
@@ -201,6 +230,7 @@ export default function App() {
             </div>
           )}
         </section>
+        )}
       </div>
     </div>
   )
