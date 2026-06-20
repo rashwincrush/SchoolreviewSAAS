@@ -22,6 +22,35 @@ serve(async (req) => {
   if (!review_id || !["approve", "reject"].includes(action))
     return new Response("Bad request", { status: 400, headers: CORS });
 
+  // Authorization: verify caller is an admin for this review's tenant
+  const sb = createClient(
+    Deno.env.get("SUPABASE_URL")!,
+    Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
+  );
+
+  const { data: reviewForAuth, error: authFetchErr } = await sb
+    .from("reviews")
+    .select("tenant_id")
+    .eq("id", review_id)
+    .maybeSingle();
+  if (authFetchErr || !reviewForAuth)
+    return new Response(JSON.stringify({ error: "Review not found" }), {
+      status: 404,
+      headers: { "content-type": "application/json", ...CORS },
+    });
+
+  const { data: adminRow } = await sb
+    .from("tenant_admins")
+    .select("role")
+    .eq("tenant_id", reviewForAuth.tenant_id)
+    .eq("user_id", user.id)
+    .maybeSingle();
+  if (!adminRow)
+    return new Response(
+      JSON.stringify({ error: "Forbidden: not an admin for this tenant" }),
+      { status: 403, headers: { "content-type": "application/json", ...CORS } }
+    );
+
   // RLS ensures only tenant admins can update
   const { error } = await supabase
     .from("reviews")
