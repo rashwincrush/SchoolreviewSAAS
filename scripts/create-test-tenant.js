@@ -1,6 +1,7 @@
 // Simple script to create a test tenant directly
-const SUPABASE_URL = "https://mmegmpmvfxwewktdtsau.supabase.co";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1tZWdtcG12Znh3ZXdrdGR0c2F1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ4OTc1NDIsImV4cCI6MjA3MDQ3MzU0Mn0.sCMu_VQQFBss8yD127QuChj6kxPWXj_5yC4OH-nfn1U";
+// Usage: SUPABASE_URL=your_url SUPABASE_ANON_KEY=your_key node scripts/create-test-tenant.js
+const SUPABASE_URL = process.env.SUPABASE_URL ?? "";
+const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY ?? "";
 
 async function createTestTenant() {
   // Import dynamically to work in Node.js

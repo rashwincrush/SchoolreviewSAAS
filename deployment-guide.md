@@ -36,7 +36,7 @@ return new Response(JSON.stringify(payload), {
 For each function, go to Supabase Dashboard → Functions → [Function Name] → Settings → Environment Variables and set:
 
 For all functions:
-- `SUPABASE_URL`: Your Supabase project URL (e.g., `https://mmegmpmvfxwewktdtsau.supabase.co`)
+- `SUPABASE_URL`: Your Supabase project URL (e.g., `https://YOUR_PROJECT.supabase.co`)
 - `SUPABASE_ANON_KEY`: Your Supabase anonymous key
 
 For domains-guard function only:
@@ -48,16 +48,16 @@ From your project root, deploy each function:
 
 ```bash
 cd supabase/functions/reviews-public
-supabase functions deploy reviews-public --project-ref mmegmpmvfxwewktdtsau
+supabase functions deploy reviews-public --project-ref YOUR_PROJECT_REF
 
 cd ../reviews-submit
-supabase functions deploy reviews-submit --project-ref mmegmpmvfxwewktdtsau
+supabase functions deploy reviews-submit --project-ref YOUR_PROJECT_REF
 
 cd ../reviews-moderate
-supabase functions deploy reviews-moderate --project-ref mmegmpmvfxwewktdtsau
+supabase functions deploy reviews-moderate --project-ref YOUR_PROJECT_REF
 
 cd ../domains-guard
-supabase functions deploy domains-guard --project-ref mmegmpmvfxwewktdtsau
+supabase functions deploy domains-guard --project-ref YOUR_PROJECT_REF
 ```
 
 ## Step 2: Configure Google OAuth in Supabase Auth
@@ -120,9 +120,9 @@ select id, 'stmarksschool.in' from tenants where slug='st-marks-chromepet';
 Create a `.env` file in `apps/embed` with the same environment variables as the admin app:
 
 ```
-VITE_SUPABASE_URL="https://mmegmpmvfxwewktdtsau.supabase.co"
-VITE_SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1tZWdtcG12Znh3ZXdrdGR0c2F1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ4OTc1NDIsImV4cCI6MjA3MDQ3MzU0Mn0.sCMu_VQQFBss8yD127QuChj6kxPWXj_5yC4OH-nfn1U"
-VITE_FUNCTIONS_URL="https://mmegmpmvfxwewktdtsau.supabase.co/functions/v1"
+VITE_SUPABASE_URL="https://YOUR_PROJECT.supabase.co"
+VITE_SUPABASE_ANON_KEY="YOUR_SUPABASE_ANON_KEY"
+VITE_FUNCTIONS_URL="https://YOUR_PROJECT.supabase.co/functions/v1"
 ```
 
 Then start the embed app on a different port:
@@ -137,7 +137,7 @@ pnpm run dev -- --port=3017
 ### 5.1. Test Public Data API
 
 ```bash
-curl "https://mmegmpmvfxwewktdtsau.supabase.co/functions/v1/reviews-public?tenant=st-marks-chromepet"
+curl "https://YOUR_PROJECT.supabase.co/functions/v1/reviews-public?tenant=st-marks-chromepet"
 ```
 
 Expected response: JSON with `{ summary, items: [], tenant_id }`
